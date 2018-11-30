@@ -28,11 +28,11 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
   state = {
-    title: "",
-    description: "",
+    title: "Cool Item",
+    description: "One cool item",
     image: "",
     largeImage: "",
-    price: 0
+    price: 1000
   };
 
   handleChange = e => {
@@ -41,6 +41,28 @@ class CreateItem extends Component {
 
     this.setState({
       [name]: val
+    });
+  };
+
+  uploadFile = async e => {
+    console.log("uploading file...");
+    const files = e.target.files;
+    const data = new FormData();
+    data.append("file", files[0]);
+    data.append("upload_preset", "sickfits");
+
+    const res = await fetch(
+      "https://api.cloudinary.com/v1_1/storiaca/image/upload",
+      {
+        method: "POST",
+        body: data
+      }
+    );
+    const file = await res.json();
+    console.log(file);
+    this.setState({
+      image: file.secure_url,
+      largeImage: file.eager[0].secure_url
     });
   };
 
@@ -64,6 +86,24 @@ class CreateItem extends Component {
           >
             <Error error={error} />
             <fieldset disabled={loading} aria-busy={loading}>
+              <label htmlFor="file">
+                Image upload
+                <input
+                  type="file"
+                  id="file"
+                  name="file"
+                  placeholder="Upload an image"
+                  onChange={this.uploadFile}
+                  required
+                />
+                {this.state.image && (
+                  <img
+                    width="200"
+                    src={this.state.image}
+                    alt="Upload Preview"
+                  />
+                )}
+              </label>
               <label htmlFor="title">
                 Title
                 <input
@@ -71,7 +111,7 @@ class CreateItem extends Component {
                   id="title"
                   name="title"
                   placeholder="Title"
-                  value={this.state.title}
+                  value={this.state.image}
                   onChange={this.handleChange}
                   required
                 />
