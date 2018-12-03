@@ -111,7 +111,7 @@ class CreateItem extends Component {
                   id="title"
                   name="title"
                   placeholder="Title"
-                  value={this.state.image}
+                  value={this.state.title}
                   onChange={this.handleChange}
                   required
                 />
