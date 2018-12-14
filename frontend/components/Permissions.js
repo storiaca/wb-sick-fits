@@ -91,7 +91,6 @@ class UserPermissions extends React.Component {
       );
     }
     this.setState({ permissions: updatedPermissions });
-    console.log(updatedPermissions);
   };
 
   render() {
@@ -105,26 +104,41 @@ class UserPermissions extends React.Component {
         }}
       >
         {(updatedPermissions, { loading, error }) => (
-          <tr key={user.id}>
-            <td>{user.name}</td>
-            <td>{user.email}</td>
-            {possiblePermissions.map(permission => (
-              <td key={permission}>
-                <label htmlFor={`${user.id}-permission-${permission}`}>
-                  <input
-                    id={`${user.id}-permission-${permission}`}
-                    type="checkbox"
-                    checked={this.state.permissions.includes(permission)}
-                    value={permission}
-                    onChange={this.handlePermissionChange}
-                  />
-                </label>
+          <>
+            {error && (
+              <tr>
+                <td colspan="8">
+                  <Error error={error} />
+                </td>
+              </tr>
+            )}
+            <tr key={user.id}>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              {possiblePermissions.map(permission => (
+                <td key={permission}>
+                  <label htmlFor={`${user.id}-permission-${permission}`}>
+                    <input
+                      id={`${user.id}-permission-${permission}`}
+                      type="checkbox"
+                      checked={this.state.permissions.includes(permission)}
+                      value={permission}
+                      onChange={this.handlePermissionChange}
+                    />
+                  </label>
+                </td>
+              ))}
+              <td>
+                <SickButton
+                  type="button"
+                  disabled={loading}
+                  onClick={updatedPermissions}
+                >
+                  Updat{loading ? "ing" : "e"}
+                </SickButton>
               </td>
-            ))}
-            <td>
-              <SickButton>Update</SickButton>
-            </td>
-          </tr>
+            </tr>
+          </>
         )}
       </Mutation>
     );
