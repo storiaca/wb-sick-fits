@@ -68,7 +68,7 @@ class AutoComplete extends Component {
             highlightedIndex
           }) => (
             <div>
-              <ApolloConsumer>
+              <ApolloConsumer> 
                 {client => (
                   <input
                     {...getInputProps({
