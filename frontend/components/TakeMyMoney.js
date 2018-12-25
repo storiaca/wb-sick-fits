@@ -33,7 +33,7 @@ class TakeMyMoney extends Component {
     console.log("On Token Called");
     console.log(res.id);
     // Manually call the mutation once we have the stripe token
-    const order = createOrder({
+    const order = await createOrder({
       variables: {
         token: res.id
       }
