@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SingkeItem/> Errors with a not found item 1`] = `
+<p
+  data-test="graphql-error"
+>
+  <strong>
+    Shoot!
+  </strong>
+  Item Not Found!
+</p>
+`;
+
+exports[`<SingkeItem/> renders with proper data 1`] = `
+<h2>
+  Viewing 
+  dogs are best
+</h2>
+`;
+
+exports[`<SingkeItem/> renders with proper data 2`] = `
+<img
+  alt=""
+  src="dog.jpg"
+/>
+`;
+
+exports[`<SingkeItem/> renders with proper data 3`] = `
+<p>
+  dogs
+</p>
+`;
