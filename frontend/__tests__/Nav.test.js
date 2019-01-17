@@ -1,6 +1,7 @@
 import { mount } from "enzyme";
 import wait from "waait";
-import PleaseSignin from "../components/PleaseSignin";
+import toJSON from "enzyme-to-json";
+import Nav from "../components/Nav";
 import { CURRENT_USER_QUERY } from "../components/User";
 import { MockedProvider } from "react-apollo/test-utils";
 import { fakeUser } from "../lib/testUtils";
@@ -19,33 +20,25 @@ const signedInMocks = [
   }
 ];
 
-describe("<PleaseSignin/>", () => {
-  it("renders the sign in dialog to logged out user", async () => {
+describe("<Nav/>", () => {
+  it("renders a minimal nav when signed out", async () => {
     const wrapper = mount(
       <MockedProvider mocks={notSignedInMocks}>
-        <PleaseSignin />
+        <Nav />
       </MockedProvider>
     );
     await wait();
     wrapper.update();
-    expect(wrapper.text()).toContain("Please Sign In before Continuing");
-    const SignIn = wrapper.find("Signin");
-    expect(SignIn.exists()).toBe(true);
+    //console.log(wrapper.debug());
+    const nav = wrapper.find('[data-test="nav"]');
+    expect(toJSON(nav)).toMatchSnapshot();
   });
 
-  it("renders the child component when the user is signed in", async () => {
-    const Hey = () => <p>Hey!</p>;
+  it("renders full nav when signed in", async () => {
     const wrapper = mount(
       <MockedProvider mocks={signedInMocks}>
-        <PleaseSignin>
-          <Hey />
-        </PleaseSignin>
+        <Nav />
       </MockedProvider>
     );
-
-    await wait();
-    wrapper.update();
-    //expect(wrapper.find("Hey").exists()).toBe(true);
-    expect(wrapper.contains(<Hey />)).toBe(true);
   });
 });
